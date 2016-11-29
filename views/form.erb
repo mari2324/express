@@ -10,5 +10,35 @@
             <input type="text" name="y" id="y" placeholder="Y">
             <input type="submit" value="検索">
         </form>
+        <h2>検索履歴</h2>
+        <table>
+            <% @histories.each do |history| %>
+            <tr>
+                <td><%= history.x %>,<%=history.y %></td>
+                <td>
+                    <% if history.favorite %>
+                    <form action ="<%=history.id%>/update" method="post">
+                        <input type ="submit" value="解除">
+                    </form>
+                    <% else %>
+                    <form action ="<%=history.id%>/update" method="post">
+                        <input type ="submit" value="お気に入り">
+                    </form>
+                    <% end %>
+                </td>
+                <td>
+                    <form action ="<%= history.id %>/delete" method ="post">
+                        <input type ="submit" value="[x]">
+                    </form>
+                </td>
+            </tr>
+            <% end %>
+        </table>
+        <h2>お気に入り</h2>
+        <ul>
+            <% @favorites.each do |favorite| %>
+            <li><%= favorite.x %><%= favorite.y %></li>
+            <% end %>
+        </ul>
     </body>
 </html>

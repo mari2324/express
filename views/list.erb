@@ -3,15 +3,47 @@
     <head>
         <meta charset="UTF-8">
         <title>タイトル</title>
+        <script type ="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     </head>
     <body>
         <table>
             <% @stations.each do |station| %>
+            <%if station["distance"].delete("m").to_i<500%>
             <tr class="station">
                 <td class="line"><%=station["line"]%></td>
-                <td class="name"><%=station["name"]%></td>
+                <td class="name"><a href ="https://www.google.co.jp/maps/@<%=station["y"]%>,<%=station["x"]%>"><%=station["name"]%></a></td>
+                <td class="prev"><%=station["prev"]%></td>
+                <td class="next"><%=station["next"]%></td>
+                <td class="distance"><%=station["distance"]%></td>
             </tr>
+            <%end %>
             <% end %>
         </table>
+    <div id ="detail">
+        <h2>次の駅</h2>
+        <div class="next"></div>
+        <h2>前の駅</h2>
+        <div class="prev"></div>
+    </div>
+            <script>
+            window.onload=function(){
+                $(".station").click(function(){
+                    var line=$(".line",this).text();
+                    var name=$(".name",this).text();
+                    $.ajax("/api/station",{
+                        type:"GET",
+                        data:{"line":line,"name":name},
+                        datatype:'json'
+                    })
+                    .done(function(json){
+                        $("#detail .next").text(json["next"])
+                        $("#detail .prev").text(json["prev"])
+                    });
+                    console.log(line+""+name);
+                })
+            }
+            
+        
+        </script>
     </body>
 </html>
