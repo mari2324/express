@@ -55,6 +55,7 @@ end
 post '/:id/update' do
     history=History.find(params[:id])
     history.favorite=!history.favorite
+    history.comment=params[:comment]
     history.save
     redirect "/"
 end

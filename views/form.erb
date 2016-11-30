@@ -22,6 +22,7 @@
                     </form>
                     <% else %>
                     <form action ="<%=history.id%>/update" method="post">
+                        <input type ="text" placeholder="コメント" name="comment">
                         <input type ="submit" value="お気に入り">
                     </form>
                     <% end %>
@@ -36,8 +37,12 @@
         </table>
         <h2>お気に入り</h2>
         <ul>
-            <% @favorites.each do |favorite| %>
-            <li><%= favorite.x %><%= favorite.y %></li>
+            <% if @favorites.empty? %>
+            <li>お気に入りが空です</li>
+            <% else %>
+             <% @favorites.each do |favorite| %>
+             <li><%= favorite.x %>,<%= favorite.y %>,<%= favorite.comment%></li>
+             <% end %>
             <% end %>
         </ul>
     </body>
